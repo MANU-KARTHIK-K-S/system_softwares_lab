@@ -3,78 +3,78 @@
 #include <stdlib.h>
 void main()
 {
-    FILE *f1, *f2, *f3, *f4, *f5;
+    FILE *input_smacropt, *nam_smacropt, *def_smacropt, *arg_smacropt, *op_smacropt;
     int len, i, pos = 1;
-    char arg[20], mne[20], opnd[20], la[20], name[20], mne1[20], opnd1[20], pos1[10], pos2[10];
-    f1 = fopen("input_smacro.txt", "r");
-    f2 = fopen("nam_smacro.txt", "w+");
-    f3 = fopen("def_smacro.txt", "w+");
-    f4 = fopen("arg_smacro.txt", "w+");
-    f5 = fopen("op_smacro.txt", "w+");
-    fscanf(f1, "%s%s%s", la, mne, opnd);
-    while (strcmp(mne, "END") != 0)
+    char arguments[20], mnemonics[20], operand[20], label[20], name[20], mne1[20], opnd1[20], pos1[10], pos2[10];
+    input_smacropt = fopen("input_smacro.txt", "r");
+    nam_smacropt = fopen("nam_smacro.txt", "w+");
+    def_smacropt = fopen("def_smacro.txt", "w+");
+    arg_smacropt = fopen("arg_smacro.txt", "w+");
+    op_smacropt = fopen("op_smacro.txt", "w+");
+    fscanf(input_smacropt, "%s%s%s", label, mnemonics, operand);
+    while (strcmp(mnemonics, "END") != 0)
     {
-        if (strcmp(mne, "MACRO") == 0)
+        if (strcmp(mnemonics, "MACRO") == 0)
         {
-            fprintf(f2, "%s\n", la);
-            fseek(f2, SEEK_SET, 0);
-            fprintf(f3, "%s\t%s\n", la, opnd);
-            fscanf(f1, "%s%s%s", la, mne, opnd);
-            while (strcmp(mne, "MEND") != 0)
+            fprintf(nam_smacropt, "%s\n", label);
+            fseek(nam_smacropt, SEEK_SET, 0);
+            fprintf(def_smacropt, "%s\t%s\n", label, operand);
+            fscanf(input_smacropt, "%s%s%s", label, mnemonics, operand);
+            while (strcmp(mnemonics, "MEND") != 0)
             {
-                if (opnd[0] == '&')
+                if (operand[0] == '&')
                 {
                     itoa(pos, pos1, 5);
                     strcpy(pos2, "?");
-                    strcpy(opnd, strcat(pos2, pos1));
+                    strcpy(operand, strcat(pos2, pos1));
                     pos = pos + 1;
                 }
-                fprintf(f3, "%s\t%s\n", mne, opnd);
-                fscanf(f1, "%s%s%s", la, mne, opnd);
+                fprintf(def_smacropt, "%s\t%s\n", mnemonics, operand);
+                fscanf(input_smacropt, "%s%s%s", label, mnemonics, operand);
             }
-            fprintf(f3, "%s", mne);
+            fprintf(def_smacropt, "%s", mnemonics);
         }
         else
         {
-            fscanf(f2, "%s", name);
-            if (strcmp(mne, name) == 0)
+            fscanf(nam_smacropt, "%s", name);
+            if (strcmp(mnemonics, name) == 0)
             {
-                len = strlen(opnd);
+                len = strlen(operand);
                 for (i = 0; i < len; i++)
                 {
-                    if (opnd[i] != ',')
-                        fprintf(f4, "%c", opnd[i]);
+                    if (operand[i] != ',')
+                        fprintf(arg_smacropt, "%c", operand[i]);
                     else
-                        fprintf(f4, "\n");
+                        fprintf(arg_smacropt, "\n");
                 }
-                fseek(f3, SEEK_SET, 0);
-                fseek(f4, SEEK_SET, 0);
-                fscanf(f3, "%s%s", mne1, opnd1);
-                fprintf(f5, ".\t%s\t%s\n", mne1, opnd);
-                fscanf(f3, "%s%s", mne1, opnd1);
+                fseek(def_smacropt, SEEK_SET, 0);
+                fseek(arg_smacropt, SEEK_SET, 0);
+                fscanf(def_smacropt, "%s%s", mne1, opnd1);
+                fprintf(op_smacropt, ".\t%s\t%s\n", mne1, operand);
+                fscanf(def_smacropt, "%s%s", mne1, opnd1);
                 while (strcmp(mne1, "MEND") != 0)
                 {
-                    if ((opnd[0] == '?'))
+                    if ((operand[0] == '?'))
                     {
-                        fscanf(f4, "%s", arg);
-                        fprintf(f5, "-\t%s\t%s\n", mne1, arg);
+                        fscanf(arg_smacropt, "%s", arguments);
+                        fprintf(op_smacropt, "-\t%s\t%s\n", mne1, arguments);
                     }
                     else
-                        fprintf(f5, "-\t%s\t%s\n", mne1, opnd1);
-                    fscanf(f3, "%s%s", mne1, opnd1);
+                        fprintf(op_smacropt, "-\t%s\t%s\n", mne1, opnd1);
+                    fscanf(def_smacropt, "%s%s", mne1, opnd1);
                 }
             }
             else
-                fprintf(f5, "%s\t%s\t%s\n", la, mne, opnd);
+                fprintf(op_smacropt, "%s\t%s\t%s\n", label, mnemonics, operand);
         }
-        fscanf(f1, "%s%s%s", la, mne, opnd);
+        fscanf(input_smacropt, "%s%s%s", label, mnemonics, operand);
     }
-    fprintf(f5, "%s\t%s\t%s", la, mne, opnd);
-    fclose(f1);
-    fclose(f2);
-    fclose(f3);
-    fclose(f4);
-    fclose(f5);
+    fprintf(op_smacropt, "%s\t%s\t%s", label, mnemonics, operand);
+    fclose(input_smacropt);
+    fclose(nam_smacropt);
+    fclose(def_smacropt);
+    fclose(arg_smacropt);
+    fclose(op_smacropt);
     // printf("files to be viewed \n");
     // printf("1. argtab.txt\n");
     // printf("2. namtab.txt\n");
