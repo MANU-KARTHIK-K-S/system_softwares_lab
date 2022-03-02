@@ -75,9 +75,9 @@ void main()
     fclose(f3);
     fclose(f4);
     fclose(f5);
-    printf("files to be viewed \n");
-    printf("1. argtab.txt\n");
-    printf("2. namtab.txt\n");
-    printf("3. deftab.txt\n");
-    printf("4. op.txt\n");
+    // printf("files to be viewed \n");
+    // printf("1. argtab.txt\n");
+    // printf("2. namtab.txt\n");
+    // printf("3. deftab.txt\n");
+    // printf("4. op.txt\n");
 }
