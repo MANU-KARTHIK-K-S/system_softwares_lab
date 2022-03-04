@@ -75,9 +75,4 @@ void main()
     fclose(def_smacropt);
     fclose(arg_smacropt);
     fclose(op_smacropt);
-    // printf("files to be viewed \n");
-    // printf("1. argtab.txt\n");
-    // printf("2. namtab.txt\n");
-    // printf("3. deftab.txt\n");
-    // printf("4. op.txt\n");
 }
