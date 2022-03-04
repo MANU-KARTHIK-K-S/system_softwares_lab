@@ -1,4 +1,5 @@
-TRIAL	&A,&B
+TRIAL	&A,&B,&C
 LDA	?1
-STA	?2
+ADD	?2
+STA	?3
 MEND
