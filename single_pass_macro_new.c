@@ -3,9 +3,9 @@
 #include <stdlib.h>
 void main()
 {
-    FILE *input_smacropt, *nam_smacropt, *def_smacropt, *arg_smacropt, *op_smacropt;
     int len, i, pos = 1;
     char arguments[20], mnemonics[20], operand[20], label[20], name[20], mne1[20], opnd1[20], pos1[10], pos2[10];
+    FILE *input_smacropt, *nam_smacropt, *def_smacropt, *arg_smacropt, *op_smacropt;
     input_smacropt = fopen("input_smacro.txt", "r");
     nam_smacropt = fopen("nam_smacro.txt", "w+");
     def_smacropt = fopen("def_smacro.txt", "w+");
